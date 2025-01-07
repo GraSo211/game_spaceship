@@ -57,14 +57,45 @@ public class Enemigo
 
     public void Borrar()
     {
-        for (int i = 0; i < PosicionesEnemigo.Count; i++)
+        foreach (Point p in PosicionesEnemigo)
         {
-            Point p = new Point(PosicionesEnemigo[i].X, PosicionesEnemigo[i].Y);
             Console.SetCursorPosition(p.X, p.Y);
             Console.Write(" ");
         }
     }
 
+    private void GenerarDireccion()
+    {
+        int rndDireccion = new Random().Next(1, 6);
+        Point p;
+        switch (rndDireccion)
+        {
+            case 1:
+                p = new Point(PosicionInicial.X, PosicionInicial.Y - 1);
+
+
+                break;
+            case 2:
+                p = new Point(PosicionInicial.X - 1, PosicionInicial.Y);
+
+
+                break;
+            case 3:
+                p = new Point(PosicionInicial.X, PosicionInicial.Y + 1);
+
+
+                break;
+            case 4:
+                p = new Point(PosicionInicial.X + 1, PosicionInicial.Y);
+                break;
+            default:
+                p = new Point(PosicionInicial.X, PosicionInicial.Y);
+                break;
+        }
+        PosicionInicial = p;
+        _TiempoDireccion = DateTime.Now;
+
+    }
 
     public void Mover()
     {
@@ -74,38 +105,23 @@ public class Enemigo
         // 2. Oeste
         // 3. Sur
         // 4. Este
-        int rnd = new Random().Next(1, 5);
-        Borrar();
-        switch (rnd)
+
+        int rndDuracion = new Random().Next(500, 1501);
+        DateTime dateNow = DateTime.Now; 
+        if (dateNow >= _TiempoMovimiento.AddMilliseconds(30))
         {
-            case (1):
-                Point pN = new Point(PosicionInicial.X, PosicionInicial.Y - 1);
-                PosicionInicial = pN;
+            if (dateNow >= _TiempoDireccion.AddMilliseconds(rndDuracion))
+            {
+                GenerarDireccion();
+            }
 
-                break;
-            case (2):
-                Point pO = new Point(PosicionInicial.X - 1, PosicionInicial.Y);
-                PosicionInicial = pO;
 
-                break;
-            case (3):
-                Point pS = new Point(PosicionInicial.X, PosicionInicial.Y + 1);
-                PosicionInicial = pS;
-
-                break;
-            case (4):
-                Point pE = new Point(PosicionInicial.X + 1, PosicionInicial.Y);
-                PosicionInicial = pE;
-
-                break;
-            
-        }
-        if (DateTime.Now >= _TiempoMovimiento.AddMilliseconds(1000))
-        {
+            Borrar();
             Dibujar();
             _TiempoMovimiento = DateTime.Now;
+
         }
-        
+
 
     }
 
