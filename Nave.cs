@@ -181,7 +181,7 @@ public class Nave
 
             Point mover = Teclado();
             Point posicionProx = new Point(Posicion.X + mover.X, Posicion.Y + mover.Y);
-            Boolean colision = Colision(posicionProx);
+            bool colision = Colision(posicionProx);
             Posicion = colision == true ? posicionAux : posicionProx;
 
             Dibujar();

@@ -3,6 +3,14 @@ using System.Drawing;
 
 namespace game_spaceship;
 
+public enum Direccion
+{
+    Norte,
+    Sur,
+    Este,
+    Oeste,
+    Quieto
+}
 public class Enemigo
 {
     public float Vida { get; set; }
@@ -14,6 +22,7 @@ public class Enemigo
     public ConsoleColor Color;
     public List<Point> PosicionesEnemigo { get; set; }
     public DateTime _TiempoMovimiento { get; set; }
+    public Direccion Direccion {get; set;}
     public DateTime _TiempoDireccion { get; set; }
     public Enemigo(ConsoleColor color, Ventana ventana, Point posicionActual)
     {
@@ -22,6 +31,7 @@ public class Enemigo
         PosicionesEnemigo = new List<Point>();
         Color = color;
         VentanaC = ventana;
+        Direccion = Direccion.Este;
         _TiempoMovimiento = DateTime.Now;
         _TiempoDireccion = DateTime.Now;
     }
@@ -70,64 +80,75 @@ public class Enemigo
     {
         int rndDuracion = new Random().Next(1000, 2001);
         int rndDireccion = new Random().Next(1, 6);
-        Point p;
         if (DateTime.Now > _TiempoDireccion.AddMilliseconds(rndDuracion))
         {
             switch (rndDireccion)
             {
                 case 1:
-                    p = new Point(PosicionActual.X, PosicionActual.Y - 1);
-
-
+                    Direccion = Direccion.Norte;
                     break;
                 case 2:
-                    p = new Point(PosicionActual.X - 1, PosicionActual.Y);
+                    Direccion = Direccion.Oeste;
+                    
 
 
                     break;
                 case 3:
-                    p = new Point(PosicionActual.X, PosicionActual.Y + 1);
+                    Direccion = Direccion.Sur;
 
 
                     break;
                 case 4:
-                    p = new Point(PosicionActual.X + 1, PosicionActual.Y);
+                    Direccion = Direccion.Este;
                     break;
-                default:
-                    p = new Point(PosicionActual.X, PosicionActual.Y);
+                case 5:
+                    Direccion = Direccion.Quieto;
                     break;
             }
-            PosicionActual = p;
             _TiempoDireccion = DateTime.Now;
         }
     }
 
+    public void GenerarMovimiento() {
+        Point p;
+        switch (Direccion)
+        {
+            case Direccion.Norte:
+                p = new Point(PosicionActual.X, PosicionActual.Y - 1);
+                break;
+            case Direccion.Oeste:
+                p = new Point(PosicionActual.X - 1, PosicionActual.Y);
+                break;
+            case Direccion.Sur:
+                p = new Point(PosicionActual.X, PosicionActual.Y + 1);
+                break;
+            case Direccion.Este:
+                p = new Point(PosicionActual.X + 1, PosicionActual.Y);
+                break;
+            case Direccion.Quieto:
+                p = new Point(PosicionActual.X, PosicionActual.Y);
+                break;
+        }
+     }
 
     public void Colision(Point posActual)
     {
-        if (posActual.Y <= VentanaC.LimiteSuperior.Y)
+        if (posActual.X < VentanaC.LimiteSuperior.X)
         {
-            
-         }
+
+        }
     }
 
     public void Mover()
     {
-        // Aleatorizamos su movimiento,
-        // Generamos un random donde se acumulan probabilidades de .25
-        // 1. Norte
-        // 2. Oeste
-        // 3. Sur
-        // 4. Este
 
-
-
-        if (DateTime.Now > _TiempoMovimiento.AddMilliseconds(1))
+        if (DateTime.Now > _TiempoMovimiento.AddMilliseconds(30))
         {
             Borrar();
             GenerarDireccion();
+            GenerarMovimiento();
             Point posAux = PosicionActual;
-            Colision(PosicionActual);
+            Colision(posAux);
             Dibujar();
             _TiempoMovimiento = DateTime.Now;
 
