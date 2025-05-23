@@ -97,7 +97,7 @@ public class Enemigo
                 PosicionInicial = pE;
 
                 break;
-
+            pruba
         }
         Thread.Sleep(500);
         Dibujar();
