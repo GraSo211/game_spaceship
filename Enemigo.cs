@@ -13,7 +13,7 @@ public class Enemigo
     public Point PosicionInicial { get; set; }
     public ConsoleColor Color;
     public List<Point> PosicionesEnemigo { get; set; }
-
+    public DateTime TiempoMovimiento { get; set; }
 
     public Enemigo(ConsoleColor color, Ventana ventana, Point posicionInicial)
     {
@@ -22,6 +22,7 @@ public class Enemigo
         PosicionesEnemigo = new List<Point>();
         Color = color;
         VentanaC = ventana;
+        TiempoMovimiento = DateTime.Now;
 
     }
 
@@ -97,10 +98,13 @@ public class Enemigo
                 PosicionInicial = pE;
 
                 break;
-            pruba
+            
         }
-        Thread.Sleep(500);
-        Dibujar();
+        if (DateTime.Now >= TiempoMovimiento.AddMilliseconds(1000))
+        {
+            Dibujar();
+        }
+        
 
     }
 
