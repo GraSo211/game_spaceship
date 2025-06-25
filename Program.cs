@@ -5,8 +5,8 @@ using System.Drawing;
 Ventana ventana;
 Nave nave;
 bool juego = true;
-Enemigo enemigo;
-
+Enemigo enemigo1;
+Enemigo enemigo2;
 void Iniciar()
 {
     // Ventana de juego 
@@ -16,8 +16,10 @@ void Iniciar()
     // Nave del jugador
     nave = new Nave(new Point(80, 40), 2, ConsoleColor.DarkBlue, ventana);
     nave.Dibujar();
-    enemigo = new Enemigo(ConsoleColor.Red, ventana, new Point(50, 10));
-    enemigo.Dibujar();
+    enemigo1 = new Enemigo(ConsoleColor.Red, ventana, new Point(50, 10));
+    enemigo1.Dibujar();
+    enemigo2 = new Enemigo(ConsoleColor.DarkRed, ventana, new Point(100, 5));
+    enemigo2.Dibujar();
 
 }
 
@@ -35,8 +37,9 @@ void Game()
             nave.Muerte();
             juego = false;
         }
-        
-        enemigo.Mover();
+
+        enemigo1.Mover();
+        enemigo2.Mover();
 
     }
 }

@@ -109,7 +109,8 @@ public class Enemigo
         }
     }
 
-    public void GenerarMovimiento() {
+    public void GenerarMovimiento()
+    {
         Point p;
         switch (Direccion)
         {
@@ -125,17 +126,29 @@ public class Enemigo
             case Direccion.Este:
                 p = new Point(PosicionActual.X + 1, PosicionActual.Y);
                 break;
-            case Direccion.Quieto:
+            default:
                 p = new Point(PosicionActual.X, PosicionActual.Y);
                 break;
         }
-     }
+        PosicionActual = p;
+    }
 
     public void Colision(Point posActual)
     {
-        if (posActual.X < VentanaC.LimiteSuperior.X)
+        if (posActual.X < VentanaC.LimiteSuperior.X+2)
         {
-
+            Direccion = Direccion.Este;
+        }
+        if (posActual.X > VentanaC.LimiteInferior.X-5)
+        {
+            Direccion = Direccion.Oeste;
+        }
+        if (posActual.Y < VentanaC.LimiteSuperior.Y+2)
+        {
+            Direccion = Direccion.Sur;
+        }
+        if (posActual.Y > VentanaC.LimiteSuperior.Y+15) {
+            Direccion = Direccion.Norte;
         }
     }
 
