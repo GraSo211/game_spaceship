@@ -22,7 +22,7 @@ public class Enemigo
     public ConsoleColor Color;
     public List<Point> PosicionesEnemigo { get; set; }
     public DateTime _TiempoMovimiento { get; set; }
-    public Direccion Direccion {get; set;}
+    public Direccion Direccion { get; set; }
     public DateTime _TiempoDireccion { get; set; }
     public Enemigo(ConsoleColor color, Ventana ventana, Point posicionActual)
     {
@@ -79,9 +79,10 @@ public class Enemigo
     private void GenerarDireccion()
     {
         int rndDuracion = new Random().Next(1000, 2001);
-        int rndDireccion = new Random().Next(1, 6);
-        if (DateTime.Now > _TiempoDireccion.AddMilliseconds(rndDuracion))
+
+        if ((DateTime.Now > _TiempoDireccion.AddMilliseconds(rndDuracion)) && (Direccion == Direccion.Este || Direccion == Direccion.Oeste || Direccion == Direccion.Quieto))
         {
+            int rndDireccion = new Random().Next(1, 6);
             switch (rndDireccion)
             {
                 case 1:
@@ -89,14 +90,9 @@ public class Enemigo
                     break;
                 case 2:
                     Direccion = Direccion.Oeste;
-                    
-
-
                     break;
                 case 3:
                     Direccion = Direccion.Sur;
-
-
                     break;
                 case 4:
                     Direccion = Direccion.Este;
@@ -106,7 +102,27 @@ public class Enemigo
                     break;
             }
             _TiempoDireccion = DateTime.Now;
+
         }
+        
+        if ((DateTime.Now > _TiempoDireccion.AddMilliseconds(200)) && (Direccion == Direccion.Norte || Direccion == Direccion.Sur))
+        {
+            int rndDireccion = new Random().Next(1, 4);
+            switch (rndDireccion)
+            {
+                case 1:
+                    Direccion = Direccion.Oeste;
+                    break;
+                case 2:
+                    Direccion = Direccion.Este;
+                    break;
+                case 3:
+                    Direccion = Direccion.Quieto;
+                    break;
+            }
+        }
+
+        
     }
 
     public void GenerarMovimiento()
@@ -135,19 +151,20 @@ public class Enemigo
 
     public void Colision(Point posActual)
     {
-        if (posActual.X < VentanaC.LimiteSuperior.X+2)
+        if (posActual.X < VentanaC.LimiteSuperior.X + 2)
         {
             Direccion = Direccion.Este;
         }
-        if (posActual.X > VentanaC.LimiteInferior.X-5)
+        if (posActual.X > VentanaC.LimiteInferior.X - 5)
         {
             Direccion = Direccion.Oeste;
         }
-        if (posActual.Y < VentanaC.LimiteSuperior.Y+2)
+        if (posActual.Y < VentanaC.LimiteSuperior.Y + 2)
         {
             Direccion = Direccion.Sur;
         }
-        if (posActual.Y > VentanaC.LimiteSuperior.Y+15) {
+        if (posActual.Y > VentanaC.LimiteSuperior.Y + 15)
+        {
             Direccion = Direccion.Norte;
         }
     }
