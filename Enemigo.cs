@@ -152,7 +152,7 @@ public class Enemigo
 
     public virtual void Colision(Point posActual)
     {
-        if (posActual.X < VentanaC.LimiteSuperior.X + 2)
+        if (posActual.X < VentanaC.LimiteSuperior.X+2)
         {
             Direccion = Direccion.Este;
         }

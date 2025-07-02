@@ -53,11 +53,11 @@ public class MiniBoss : Enemigo
 
     public override void Colision(Point posActual)
     {
-        if (posActual.X < VentanaC.LimiteSuperior.X + 8)
+        if (posActual.X < VentanaC.LimiteSuperior.X+2)
         {
             Direccion = Direccion.Este;
         }
-        if (posActual.X > VentanaC.LimiteInferior.X - 1)
+        if (posActual.X > VentanaC.LimiteInferior.X - 9)
         {
             Direccion = Direccion.Oeste;
         }
