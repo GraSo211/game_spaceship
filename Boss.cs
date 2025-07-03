@@ -110,7 +110,7 @@ public class Boss : Enemigo
     
     public override void Colision(Point posActual)
     {
-        if (posActual.X < VentanaC.LimiteSuperior.X + 2)
+        if (posActual.X < VentanaC.LimiteSuperior.X + 3)
         {
             Direccion = Direccion.Este;
         }

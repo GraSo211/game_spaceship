@@ -24,6 +24,8 @@ public class Enemigo
     public DateTime _TiempoMovimiento { get; set; }
     public Direccion Direccion { get; set; }
     public DateTime _TiempoDireccion { get; set; }
+
+    public DateTime TiempoDisparo { get; set; }
     public Enemigo(ConsoleColor color, Ventana ventana, Point posicionActual)
     {
         Vida = 50;
@@ -35,6 +37,7 @@ public class Enemigo
         _TiempoMovimiento = DateTime.Now;
         _TiempoDireccion = DateTime.Now;
         Balas = new List<BalaEnemigo>();
+        TiempoDisparo = DateTime.Now;
     }
 
     public virtual void Dibujar()
@@ -124,7 +127,7 @@ public class Enemigo
             _TiempoDireccion = DateTime.Now;
         }
 
-        
+
     }
 
     public void GenerarMovimiento()
@@ -153,7 +156,7 @@ public class Enemigo
 
     public virtual void Colision(Point posActual)
     {
-        if (posActual.X < VentanaC.LimiteSuperior.X+2)
+        if (posActual.X < VentanaC.LimiteSuperior.X + 2)
         {
             Direccion = Direccion.Este;
         }
@@ -174,9 +177,27 @@ public class Enemigo
 
     public void Disparar()
     {
-        BalaEnemigo bala = new BalaEnemigo(new Point(PosicionActual.X + 1, PosicionActual.Y + 3), Color, VentanaC);
-        bala.Dibujar();
-        
+        if (DateTime.Now > TiempoDisparo.AddMilliseconds(500))
+        {
+            BalaEnemigo bala = new BalaEnemigo(new Point(PosicionActual.X + 1, PosicionActual.Y + 3), Color, VentanaC);
+            Balas.Add(bala);
+            TiempoDisparo = DateTime.Now;
+        }
+
+        for (int i = 0; i < Balas.Count; i++)
+        {
+            if (!(Balas[i].Posicion.Y > VentanaC.LimiteInferior.Y - 2))
+            {
+                Balas[i].Mover();
+            }
+            else
+            {
+                Balas[i].Borrar();
+                Balas.Remove(Balas[i]);
+             }
+            
+        }
+
     }
 
 

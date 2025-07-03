@@ -14,12 +14,15 @@ public class BalaEnemigo
     public ConsoleColor Color { get; set; }
     public Ventana VentanaC { get; set; }
 
+    public DateTime TiempoBala { get; set; }
+
     public BalaEnemigo(Point posicion, ConsoleColor color, Ventana ventana)
     {
         Daño = 2;
         Posicion = posicion;
         VentanaC = ventana;
         Color = color;
+        TiempoBala = DateTime.Now;
     }
 
     public void Borrar()
@@ -32,31 +35,23 @@ public class BalaEnemigo
     {
         Console.ForegroundColor = Color;
         Console.SetCursorPosition(Posicion.X, Posicion.Y);
-        Console.Write("■");
+        Console.Write("█");
     }
 
-    public bool Colision(Point posibleColision)
-    {
-        if (posibleColision.Y <= VentanaC.LimiteSuperior.Y + 20 ||
-            posibleColision.Y + 2 >= VentanaC.LimiteInferior.Y ||
-            posibleColision.X <= VentanaC.LimiteSuperior.X ||
-            posibleColision.X + 6 >= VentanaC.LimiteInferior.X)
-        { return true; }
-        return false;
 
-    }
 
     public void Mover()
     {
-        Borrar();
-        Point posAux = Posicion;
-        bool colision = Colision(posAux);
-        if (!colision)
+        if (DateTime.Now > TiempoBala.AddMilliseconds(50))
         {
-            Posicion = new Point(Posicion.X, Posicion.Y+1);
+            Borrar();
+
+            Posicion = new Point(Posicion.X, Posicion.Y + 1);
             Dibujar();
 
+            TiempoBala = DateTime.Now;
         }
+
     }
 
 }
