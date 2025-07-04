@@ -35,7 +35,7 @@ public class BalaEnemigo
     {
         Console.ForegroundColor = Color;
         Console.SetCursorPosition(Posicion.X, Posicion.Y);
-        Console.Write("█");
+        Console.Write("▄");
     }
 
 
