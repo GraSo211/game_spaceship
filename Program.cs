@@ -7,6 +7,9 @@ Nave nave;
 bool juego = true;
 Enemigo enemigo1;
 Enemigo enemigo2;
+MiniBoss miniBoss1;
+Boss boss;
+
 void Iniciar()
 {
     // Ventana de juego 
@@ -20,7 +23,11 @@ void Iniciar()
     enemigo1.Dibujar();
     enemigo2 = new Enemigo(ConsoleColor.DarkRed, ventana, new Point(100, 5));
     enemigo2.Dibujar();
+    miniBoss1 = new MiniBoss(ConsoleColor.DarkMagenta, ventana, new Point(80, 10));
+    miniBoss1.Dibujar();
 
+    boss = new Boss(ConsoleColor.DarkRed, ventana, new Point(30, 20));
+    boss.Dibujar();
 }
 
 
@@ -40,6 +47,11 @@ void Game()
 
         enemigo1.Mover();
         enemigo2.Mover();
+
+        miniBoss1.Mover();
+
+        boss.Mover();
+        
 
     }
 }

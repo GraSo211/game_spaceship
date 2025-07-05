@@ -36,7 +36,7 @@ public class Enemigo
         _TiempoDireccion = DateTime.Now;
     }
 
-    public void Dibujar()
+    public virtual void Dibujar()
     {
         int x = PosicionActual.X;
         int y = PosicionActual.Y;
@@ -104,7 +104,7 @@ public class Enemigo
             _TiempoDireccion = DateTime.Now;
 
         }
-        
+
         if ((DateTime.Now > _TiempoDireccion.AddMilliseconds(200)) && (Direccion == Direccion.Norte || Direccion == Direccion.Sur))
         {
             int rndDireccion = new Random().Next(1, 4);
@@ -120,6 +120,7 @@ public class Enemigo
                     Direccion = Direccion.Quieto;
                     break;
             }
+            _TiempoDireccion = DateTime.Now;
         }
 
         
@@ -149,7 +150,7 @@ public class Enemigo
         PosicionActual = p;
     }
 
-    public void Colision(Point posActual)
+    public virtual void Colision(Point posActual)
     {
         if (posActual.X < VentanaC.LimiteSuperior.X + 2)
         {
@@ -190,9 +191,3 @@ public class Enemigo
 
 }
 
-/* █▀▀█ ▄▄██▄▄ █▀▀█  
-      ██████████
-   █▀██▀ ████ ▀██▀█
-     ████████████
-    ▀▀██      ██▀▀
-    */ 
