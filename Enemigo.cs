@@ -10,15 +10,15 @@ public class Enemigo
 
     public Ventana VentanaC;
 
-    public Point PosicionInicial { get; set; }
+    public Point PosicionActual { get; set; }
     public ConsoleColor Color;
     public List<Point> PosicionesEnemigo { get; set; }
     public DateTime _TiempoMovimiento { get; set; }
     public DateTime _TiempoDireccion { get; set; }
-    public Enemigo(ConsoleColor color, Ventana ventana, Point posicionInicial)
+    public Enemigo(ConsoleColor color, Ventana ventana, Point posicionActual)
     {
         Vida = 50;
-        PosicionInicial = posicionInicial;
+        PosicionActual = posicionActual;
         PosicionesEnemigo = new List<Point>();
         Color = color;
         VentanaC = ventana;
@@ -28,8 +28,8 @@ public class Enemigo
 
     public void Dibujar()
     {
-        int x = PosicionInicial.X;
-        int y = PosicionInicial.Y;
+        int x = PosicionActual.X;
+        int y = PosicionActual.Y;
 
 
         Console.ForegroundColor = Color;
@@ -42,8 +42,10 @@ public class Enemigo
         Console.SetCursorPosition(x, y + 2);
         Console.Write("▀  ▀");
 
+        PosicionesEnemigo.Clear();
+
         PosicionesEnemigo.Add(new Point(x + 1, y));
-        PosicionesEnemigo.Add(new Point(x + 1, y));
+        PosicionesEnemigo.Add(new Point(x + 2, y));
 
         PosicionesEnemigo.Add(new Point(x, y + 1));
         PosicionesEnemigo.Add(new Point(x + 1, y + 1));
@@ -66,35 +68,47 @@ public class Enemigo
 
     private void GenerarDireccion()
     {
+        int rndDuracion = new Random().Next(1000, 2001);
         int rndDireccion = new Random().Next(1, 6);
         Point p;
-        switch (rndDireccion)
+        if (DateTime.Now > _TiempoDireccion.AddMilliseconds(rndDuracion))
         {
-            case 1:
-                p = new Point(PosicionInicial.X, PosicionInicial.Y - 1);
+            switch (rndDireccion)
+            {
+                case 1:
+                    p = new Point(PosicionActual.X, PosicionActual.Y - 1);
 
 
-                break;
-            case 2:
-                p = new Point(PosicionInicial.X - 1, PosicionInicial.Y);
+                    break;
+                case 2:
+                    p = new Point(PosicionActual.X - 1, PosicionActual.Y);
 
 
-                break;
-            case 3:
-                p = new Point(PosicionInicial.X, PosicionInicial.Y + 1);
+                    break;
+                case 3:
+                    p = new Point(PosicionActual.X, PosicionActual.Y + 1);
 
 
-                break;
-            case 4:
-                p = new Point(PosicionInicial.X + 1, PosicionInicial.Y);
-                break;
-            default:
-                p = new Point(PosicionInicial.X, PosicionInicial.Y);
-                break;
+                    break;
+                case 4:
+                    p = new Point(PosicionActual.X + 1, PosicionActual.Y);
+                    break;
+                default:
+                    p = new Point(PosicionActual.X, PosicionActual.Y);
+                    break;
+            }
+            PosicionActual = p;
+            _TiempoDireccion = DateTime.Now;
         }
-        PosicionInicial = p;
-        _TiempoDireccion = DateTime.Now;
+    }
 
+
+    public void Colision(Point posActual)
+    {
+        if (posActual.Y <= VentanaC.LimiteSuperior.Y)
+        {
+            
+         }
     }
 
     public void Mover()
@@ -106,17 +120,14 @@ public class Enemigo
         // 3. Sur
         // 4. Este
 
-        int rndDuracion = new Random().Next(500, 1501);
-        DateTime dateNow = DateTime.Now; 
-        if (dateNow >= _TiempoMovimiento.AddMilliseconds(30))
+
+
+        if (DateTime.Now > _TiempoMovimiento.AddMilliseconds(1))
         {
-            if (dateNow >= _TiempoDireccion.AddMilliseconds(rndDuracion))
-            {
-                GenerarDireccion();
-            }
-
-
             Borrar();
+            GenerarDireccion();
+            Point posAux = PosicionActual;
+            Colision(PosicionActual);
             Dibujar();
             _TiempoMovimiento = DateTime.Now;
 
