@@ -1,9 +1,21 @@
 ﻿
 using game_spaceship;
 using System.Drawing;
-Ventana ventana = new(170, 45, ConsoleColor.Black,
- limiteSuperior: new Point(5, 5), limiteInferior: new Point(165, 40));
 
-ventana.DibujarMarco();
+Ventana ventana;
+Nave nave;
 
-Console.ReadKey();
+void Iniciar()
+{
+    ventana = new(170, 45, ConsoleColor.Black, limiteSuperior: new Point(5, 3), limiteInferior: new Point(165, 43));
+    ventana.DibujarMarco();
+
+    nave = new Nave(new Point(60, 30), 5, ConsoleColor.Green, ventana);
+    nave.Dibujar();
+
+    Console.ReadKey();
+
+}
+
+
+Iniciar();

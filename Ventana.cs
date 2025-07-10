@@ -26,10 +26,12 @@ public class Ventana
 
     private void init()
     {
+        Console.ForegroundColor = ConsoleColor.Blue;
         Console.SetWindowSize(Ancho, Alto);
         Console.Title = "Spaceship Game";
         Console.BackgroundColor = Color;
         Console.Clear();
+        Console.CursorVisible = false;
 
     }
 
