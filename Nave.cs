@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Drawing;
 using System.Runtime.CompilerServices;
 
@@ -70,9 +71,42 @@ public class Nave
     }
 
 
-
-    public void Mover(int velocidad)
+    private Point Teclado(ConsoleKeyInfo keyInfo)
     {
-        Posicion = new Point(Posicion.X + velocidad, Posicion.Y);
+        ConsoleKey key = keyInfo.Key;
+        Point mover;
+        switch (key)
+        {
+            case ConsoleKey.UpArrow:
+                mover = new Point(0, -Velocidad);
+                break;
+            case ConsoleKey.DownArrow:
+                mover = new Point(0, Velocidad);
+                break;
+            case ConsoleKey.LeftArrow:
+                mover = new Point(-Velocidad, 0);
+                break;
+            case ConsoleKey.RightArrow:
+                mover = new Point(Velocidad, 0);
+                break;
+            default:
+                mover = new Point(0, 0);
+                break;
+        }
+        return mover;
+    }
+
+
+    public void Mover(ConsoleKeyInfo key)
+    {
+
+
+        Point mover = Teclado(key);
+        Posicion = new Point(Posicion.X + mover.X, Posicion.Y + mover.Y);
+        Borrar();
+        Dibujar();
+
+
+
     }
 }

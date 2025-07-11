@@ -27,7 +27,10 @@ public class Ventana
     private void init()
     {
         Console.ForegroundColor = ConsoleColor.Blue;
+
         Console.SetWindowSize(Ancho, Alto);
+        Console.SetBufferSize(Ancho, Alto);
+
         Console.Title = "Spaceship Game";
         Console.BackgroundColor = Color;
         Console.Clear();
@@ -39,7 +42,7 @@ public class Ventana
 
     public void DibujarMarco()
     {
-        for (int i = LimiteSuperior.X; i < Ancho; i++)
+        for (int i = LimiteSuperior.X; i < LimiteInferior.X; i++)
         {
             Console.SetCursorPosition(i, LimiteSuperior.Y);
             Console.Write("═");
@@ -65,11 +68,12 @@ public class Ventana
         Console.SetCursorPosition(LimiteInferior.X, LimiteInferior.Y);
         Console.Write("╝");
 
-
-    
     }
 
-
+    public void Colision()
+    {
+        
+    }
 
 
 
