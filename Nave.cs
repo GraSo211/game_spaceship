@@ -9,6 +9,7 @@ public class Nave
 {
 
     public float Vida { get; set; }
+    public float Sobrecarga { get; set; }
     public int Velocidad { get; set; }
     public Point Posicion { get; set; }
 
@@ -18,15 +19,17 @@ public class Nave
 
     public List<Point> PosicionesNave { get; set; }
 
+    public List<Bala> Balas { get; set; }
     public Nave(Point posicion, int velocidad, ConsoleColor color, Ventana ventana)
     {
         Posicion = posicion;
         Velocidad = velocidad;
         Vida = 100;
+        Sobrecarga = 0;
         Color = color;
         VentanaC = ventana;
         PosicionesNave = new List<Point>();
-
+        Balas = new List<Bala>();
     }
 
     public void Dibujar()
@@ -71,9 +74,9 @@ public class Nave
     }
 
 
-    private Point Teclado(ConsoleKeyInfo keyInfo)
+    private Point Teclado()
     {
-        ConsoleKey key = keyInfo.Key;
+        ConsoleKey key = Console.ReadKey(true).Key;
         Point mover;
         switch (key)
         {
@@ -93,20 +96,86 @@ public class Nave
                 mover = new Point(0, 0);
                 break;
         }
+
+        switch (key)
+        {
+            case ConsoleKey.Z:
+                Bala balaZ = new Bala(new Point(Posicion.X, Posicion.Y + 1), ConsoleColor.Yellow, TipoBala.Normal);
+                balaZ.Dibujar();
+                Balas.Add(balaZ);
+                break;
+            case ConsoleKey.C:
+                Bala balaC = new Bala(new Point(Posicion.X + 6, Posicion.Y + 1), ConsoleColor.Yellow, TipoBala.Normal);
+                balaC.Dibujar();
+                Balas.Add(balaC);
+
+                break;
+            case ConsoleKey.X:
+                Bala balaX = new Bala(new Point(Posicion.X + 2, Posicion.Y - 2), ConsoleColor.DarkYellow, TipoBala.Especial);
+                balaX.Dibujar();
+                Balas.Add(balaX);
+
+                break;
+
+        }
+
         return mover;
     }
 
-
-    public void Mover(ConsoleKeyInfo key)
+    public Boolean Colision(Point posibleColision)
     {
+        if (posibleColision.Y <= VentanaC.LimiteSuperior.Y ||
+            posibleColision.Y + 2 >= VentanaC.LimiteInferior.Y ||
+            posibleColision.X <= VentanaC.LimiteSuperior.X ||
+            posibleColision.X + 6 >= VentanaC.LimiteInferior.X)
+        { return true; }
+        return false;
+
+    }
 
 
-        Point mover = Teclado(key);
-        Posicion = new Point(Posicion.X + mover.X, Posicion.Y + mover.Y);
-        Borrar();
-        Dibujar();
+    public void Mover()
+    {
+        if (Console.KeyAvailable)
+        {
+            Borrar();
+            Point posicionAux = Posicion;
+
+            Point mover = Teclado();
+            Point posicionProx = new Point(Posicion.X + mover.X, Posicion.Y + mover.Y);
+            Boolean colision = Colision(posicionProx);
+            Posicion = colision == true ? posicionAux : posicionProx;
+
+            Dibujar();
+        }
+
 
 
 
     }
+
+
+    public void Disparar()
+    {
+        for (int i = 0; i < Balas.Count; i++)
+        {
+            if (Balas[i].Mover(1, VentanaC.LimiteSuperior.Y))
+            {
+                Balas.Remove(Balas[i]);
+            }
+        }
+    }
+
+
+    public void informacion()
+    {
+        Console.ForegroundColor = ConsoleColor.Green;
+        Console.SetCursorPosition(VentanaC.LimiteSuperior.X, VentanaC.LimiteSuperior.Y - 1);
+        Console.Write($"Vida: {(int)Vida}%");
+        
+        Console.SetCursorPosition(VentanaC.LimiteSuperior.X + 15, VentanaC.LimiteSuperior.Y - 1);
+        Console.Write($"Sobrecarga: {(int)Sobrecarga}%");
+
+    }
+
 }

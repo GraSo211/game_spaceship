@@ -26,7 +26,7 @@ public class Ventana
 
     private void init()
     {
-        Console.ForegroundColor = ConsoleColor.Blue;
+        Console.ForegroundColor = ConsoleColor.Cyan;
 
         Console.SetWindowSize(Ancho, Alto);
         Console.SetBufferSize(Ancho, Alto);
@@ -70,10 +70,6 @@ public class Ventana
 
     }
 
-    public void Colision()
-    {
-        
-    }
 
 
 

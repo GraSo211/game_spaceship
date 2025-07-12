@@ -7,7 +7,6 @@ Nave nave;
 Boolean juego = true;
 
 
-
 void Iniciar()
 {
     // Ventana de juego 
@@ -15,22 +14,27 @@ void Iniciar()
     ventana.DibujarMarco();
 
     // Nave del jugador
-    nave = new Nave(new Point(80, 40), 4, ConsoleColor.Green, ventana);
+    nave = new Nave(new Point(80, 40), 2, ConsoleColor.DarkBlue, ventana);
     nave.Dibujar();
-
-    
+    nave.informacion();
 
 }
-Iniciar();
 
-while (juego)
+
+void Game()
 {
-    ConsoleKeyInfo key = Console.ReadKey();
-    
-    if (ConsoleKey.Escape == key.Key)
+    while (juego)
     {
-        juego = false;
-    }
+        nave.Mover();
 
-    nave.Mover(key);
+        nave.Disparar();
+
+
+
+    }
 }
+
+
+Iniciar();
+Game();
+Console.ReadKey();
