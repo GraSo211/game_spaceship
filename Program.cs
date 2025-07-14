@@ -4,7 +4,7 @@ using System.Drawing;
 
 Ventana ventana;
 Nave nave;
-Boolean juego = true;
+bool juego = true;
 
 
 void Iniciar()
@@ -16,7 +16,7 @@ void Iniciar()
     // Nave del jugador
     nave = new Nave(new Point(80, 40), 2, ConsoleColor.DarkBlue, ventana);
     nave.Dibujar();
-    nave.informacion();
+    
 
 }
 
@@ -28,7 +28,12 @@ void Game()
         nave.Mover();
 
         nave.Disparar();
-
+        nave.informacion();
+        if (nave.Vida <= 0)
+        {
+            nave.Muerte();
+            juego = false;
+        }
 
 
     }
