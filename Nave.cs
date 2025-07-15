@@ -169,7 +169,6 @@ public class Nave
             posibleColision.X + 6 >= VentanaC.LimiteInferior.X)
         { return true; }
         return false;
-
     }
 
 

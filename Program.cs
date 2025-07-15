@@ -5,7 +5,7 @@ using System.Drawing;
 Ventana ventana;
 Nave nave;
 bool juego = true;
-
+Enemigo enemigo;
 
 void Iniciar()
 {
@@ -16,7 +16,7 @@ void Iniciar()
     // Nave del jugador
     nave = new Nave(new Point(80, 40), 2, ConsoleColor.DarkBlue, ventana);
     nave.Dibujar();
-    
+    enemigo = new Enemigo(ConsoleColor.Red, ventana, new Point(50,10));
 
 }
 
@@ -34,7 +34,8 @@ void Game()
             nave.Muerte();
             juego = false;
         }
-
+        enemigo.Dibujar();
+        enemigo.Mover();
 
     }
 }
