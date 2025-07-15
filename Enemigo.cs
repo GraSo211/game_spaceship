@@ -13,8 +13,8 @@ public class Enemigo
     public Point PosicionInicial { get; set; }
     public ConsoleColor Color;
     public List<Point> PosicionesEnemigo { get; set; }
-    public DateTime TiempoMovimiento { get; set; }
-
+    public DateTime _TiempoMovimiento { get; set; }
+    public DateTime _TiempoDireccion { get; set; }
     public Enemigo(ConsoleColor color, Ventana ventana, Point posicionInicial)
     {
         Vida = 50;
@@ -22,8 +22,8 @@ public class Enemigo
         PosicionesEnemigo = new List<Point>();
         Color = color;
         VentanaC = ventana;
-        TiempoMovimiento = DateTime.Now;
-
+        _TiempoMovimiento = DateTime.Now;
+        _TiempoDireccion = DateTime.Now;
     }
 
     public void Dibujar()
@@ -100,9 +100,10 @@ public class Enemigo
                 break;
             
         }
-        if (DateTime.Now >= TiempoMovimiento.AddMilliseconds(1000))
+        if (DateTime.Now >= _TiempoMovimiento.AddMilliseconds(1000))
         {
             Dibujar();
+            _TiempoMovimiento = DateTime.Now;
         }
         
 
