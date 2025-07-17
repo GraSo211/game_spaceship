@@ -19,14 +19,14 @@ void Iniciar()
     // Nave del jugador
     nave = new Nave(new Point(80, 40), 2, ConsoleColor.DarkBlue, ventana);
     nave.Dibujar();
-    enemigo1 = new Enemigo(ConsoleColor.Red, ventana, new Point(50, 10));
+    enemigo1 = new Enemigo(ConsoleColor.Red, ventana, new Point(50, 10), nave);
     enemigo1.Dibujar();
-    enemigo2 = new Enemigo(ConsoleColor.DarkRed, ventana, new Point(100, 5));
+    enemigo2 = new Enemigo(ConsoleColor.DarkRed, ventana, new Point(100, 5), nave);
     enemigo2.Dibujar();
-    miniBoss1 = new MiniBoss(ConsoleColor.DarkMagenta, ventana, new Point(80, 10));
+    miniBoss1 = new MiniBoss(ConsoleColor.DarkMagenta, ventana, new Point(80, 10), nave);
     miniBoss1.Dibujar();
 
-    boss = new Boss(ConsoleColor.DarkRed, ventana, new Point(30, 20));
+    boss = new Boss(ConsoleColor.DarkRed, ventana, new Point(30, 20), nave);
     boss.Dibujar();
 }
 

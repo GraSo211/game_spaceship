@@ -5,7 +5,7 @@ namespace game_spaceship;
 
 public class Boss : Enemigo
 {
-    public Boss(ConsoleColor color, Ventana ventana, Point posicionInicial) : base(color, ventana, posicionInicial) { }
+    public Boss(ConsoleColor color, Ventana ventana, Point posicionInicial, Nave nave) : base(color, ventana, posicionInicial, nave) { }
 
 
     public override void Dibujar()

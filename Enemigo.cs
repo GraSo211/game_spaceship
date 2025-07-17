@@ -24,9 +24,9 @@ public class Enemigo
     public DateTime _TiempoMovimiento { get; set; }
     public Direccion Direccion { get; set; }
     public DateTime _TiempoDireccion { get; set; }
-
+    public Nave NaveC;
     public DateTime TiempoDisparo { get; set; }
-    public Enemigo(ConsoleColor color, Ventana ventana, Point posicionActual)
+    public Enemigo(ConsoleColor color, Ventana ventana, Point posicionActual, Nave nave)
     {
         Vida = 50;
         PosicionActual = posicionActual;
@@ -38,6 +38,7 @@ public class Enemigo
         _TiempoDireccion = DateTime.Now;
         Balas = new List<BalaEnemigo>();
         TiempoDisparo = DateTime.Now;
+        NaveC = nave;
     }
 
     public virtual void Dibujar()
@@ -186,6 +187,19 @@ public class Enemigo
 
         for (int i = 0; i < Balas.Count; i++)
         {
+            for (int j = 0; j < NaveC.PosicionesNave.Count; j++)
+            {
+                if ((Balas[i].Posicion.Y == NaveC.PosicionesNave[j].Y) && (Balas[i].Posicion.X == NaveC.PosicionesNave[j].X))
+                {
+                    NaveC.Vida -= Balas[i].Daño;
+                    Balas[i].Borrar();
+                    NaveC.Dibujar();
+                    Balas.Remove(Balas[i]);
+                }
+            }
+
+
+
             if (!(Balas[i].Posicion.Y > VentanaC.LimiteInferior.Y - 2))
             {
                 Balas[i].Mover();
@@ -194,8 +208,8 @@ public class Enemigo
             {
                 Balas[i].Borrar();
                 Balas.Remove(Balas[i]);
-             }
-            
+            }
+
         }
 
     }

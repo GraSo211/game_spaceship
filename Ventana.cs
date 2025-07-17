@@ -9,7 +9,6 @@ public class Ventana
 
     public Point LimiteSuperior { get; set; }
     public Point LimiteInferior { get; set; }
-
     public ConsoleColor Color { get; set; }
 
     public Ventana(int ancho, int alto, ConsoleColor color, Point limiteSuperior, Point limiteInferior)
