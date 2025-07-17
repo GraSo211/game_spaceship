@@ -17,7 +17,7 @@ public class Enemigo
     public bool Vivo { get; set; }
 
     public Ventana VentanaC;
-
+    public List<BalaEnemigo> Balas { get; set; }
     public Point PosicionActual { get; set; }
     public ConsoleColor Color;
     public List<Point> PosicionesEnemigo { get; set; }
@@ -34,6 +34,7 @@ public class Enemigo
         Direccion = Direccion.Este;
         _TiempoMovimiento = DateTime.Now;
         _TiempoDireccion = DateTime.Now;
+        Balas = new List<BalaEnemigo>();
     }
 
     public virtual void Dibujar()
@@ -169,6 +170,15 @@ public class Enemigo
             Direccion = Direccion.Norte;
         }
     }
+
+
+    public void Disparar()
+    {
+        BalaEnemigo bala = new BalaEnemigo(new Point(PosicionActual.X + 1, PosicionActual.Y + 3), Color, VentanaC);
+        bala.Dibujar();
+        
+    }
+
 
     public void Mover()
     {

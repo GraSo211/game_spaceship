@@ -51,6 +51,7 @@ void Game()
         miniBoss1.Mover();
 
         boss.Mover();
+        enemigo1.Disparar();
         
 
     }

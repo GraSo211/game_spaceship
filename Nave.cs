@@ -94,10 +94,10 @@ public class Nave
                 mover = new Point(0, Velocidad);
                 break;
             case ConsoleKey.LeftArrow:
-                mover = new Point(-Velocidad, 0);
+                mover = new Point(-Velocidad*2, 0);
                 break;
             case ConsoleKey.RightArrow:
-                mover = new Point(Velocidad, 0);
+                mover = new Point(Velocidad*2, 0);
                 break;
             default:
                 mover = new Point(0, 0);
