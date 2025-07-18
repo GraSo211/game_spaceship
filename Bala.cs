@@ -83,7 +83,7 @@ public class Bala
     public bool Mover(int velocidad, int limite)
     {
 
-        if (DateTime.Now > _tiempo.AddMilliseconds(30))
+        if (DateTime.Now > _tiempo.AddMilliseconds(20))
         {
             Borrar();
 

@@ -24,6 +24,8 @@ public class Nave
     public List<Point> PosicionesNave { get; set; }
 
     public List<Bala> Balas { get; set; }
+
+    public List<Enemigo> Enemigos { get; set; }
     public Nave(Point posicion, int velocidad, ConsoleColor color, Ventana ventana)
     {
         Posicion = posicion;
@@ -36,6 +38,7 @@ public class Nave
         VentanaC = ventana;
         PosicionesNave = new List<Point>();
         Balas = new List<Bala>();
+        Enemigos = new List<Enemigo>();
     }
 
     public void Dibujar()
@@ -58,7 +61,7 @@ public class Nave
         PosicionesNave.Add(new Point(x + 2, y + 1));
         PosicionesNave.Add(new Point(x + 3, y + 1));
         PosicionesNave.Add(new Point(x + 4, y + 1));
-        PosicionesNave.Add(new Point(x + 5, y   + 1));
+        PosicionesNave.Add(new Point(x + 5, y + 1));
 
         PosicionesNave.Add(new Point(x, y + 2));
         PosicionesNave.Add(new Point(x + 2, y + 2));
@@ -94,10 +97,10 @@ public class Nave
                 mover = new Point(0, Velocidad);
                 break;
             case ConsoleKey.LeftArrow:
-                mover = new Point(-Velocidad*2, 0);
+                mover = new Point(-Velocidad * 2, 0);
                 break;
             case ConsoleKey.RightArrow:
-                mover = new Point(Velocidad*2, 0);
+                mover = new Point(Velocidad * 2, 0);
                 break;
             default:
                 mover = new Point(0, 0);
@@ -193,13 +196,44 @@ public class Nave
     }
 
 
+
     public void Disparar()
     {
-        for (int i = 0; i < Balas.Count; i++)
+        for (int i = Balas.Count - 1; i >= 0; i--)
         {
-            if (Balas[i].Mover(1, VentanaC.LimiteSuperior.Y))
+            bool balaEliminada = false;
+
+            for (int j = 0; j < Enemigos.Count; j++)
             {
-                Balas.Remove(Balas[i]);
+                foreach (Point p in Enemigos[j].PosicionesEnemigo)
+                {
+                    if ((p.Y == Balas[i].Posicion.Y) && (p.X == Balas[i].Posicion.X))
+                    {
+                        int daño = (Balas[i].TipoBalaDisparada == TipoBala.Normal) ? 2 : 10;
+                        Enemigos[j].Vida -= daño;
+                        Enemigos[j].Dibujar();
+                        if (Enemigos[j].Vida <= 0)
+                        {
+                            Enemigos[j].Vida = 0;
+                            Enemigos[j].Vivo = false;
+                            Enemigos[j].Morir();
+                            Enemigos.RemoveAt(j);
+                        }
+                        
+                        Balas[i].Borrar();
+                        Balas.RemoveAt(i);
+                        balaEliminada = true;
+                        break;
+                    }
+                }
+
+                if (balaEliminada)
+                    break;
+            }
+
+            if (!balaEliminada && Balas[i].Mover(1, VentanaC.LimiteSuperior.Y))
+            {
+                Balas.RemoveAt(i);
             }
         }
     }
@@ -244,7 +278,7 @@ public class Nave
         Console.SetCursorPosition(VentanaC.LimiteSuperior.X + 33, VentanaC.LimiteSuperior.Y - 1);
         Console.Write($"Bala Especial: {(int)BalaEspecial}" + " %  ");
 
-      
+
     }
 
     public void Muerte()

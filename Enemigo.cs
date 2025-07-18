@@ -29,6 +29,7 @@ public class Enemigo
     public Enemigo(ConsoleColor color, Ventana ventana, Point posicionActual, Nave nave)
     {
         Vida = 50;
+        Vivo = true;
         PosicionActual = posicionActual;
         PosicionesEnemigo = new List<Point>();
         Color = color;
@@ -178,47 +179,50 @@ public class Enemigo
 
     public void Disparar()
     {
-        if (DateTime.Now > TiempoDisparo.AddMilliseconds(500))
+        if (Vivo)
         {
-            BalaEnemigo bala = new BalaEnemigo(new Point(PosicionActual.X + 1, PosicionActual.Y + 3), Color, VentanaC);
-            Balas.Add(bala);
-            TiempoDisparo = DateTime.Now;
-        }
-
-        for (int i = 0; i < Balas.Count; i++)
-        {
-            for (int j = 0; j < NaveC.PosicionesNave.Count; j++)
+            if (DateTime.Now > TiempoDisparo.AddMilliseconds(300))
             {
-                if ((Balas[i].Posicion.Y == NaveC.PosicionesNave[j].Y) && (Balas[i].Posicion.X == NaveC.PosicionesNave[j].X))
+                BalaEnemigo bala = new BalaEnemigo(new Point(PosicionActual.X + 1, PosicionActual.Y + 3), Color, VentanaC);
+                Balas.Add(bala);
+                TiempoDisparo = DateTime.Now;
+            }
+
+            for (int i = 0; i < Balas.Count; i++)
+            {
+                for (int j = 0; j < NaveC.PosicionesNave.Count; j++)
                 {
-                    NaveC.Vida -= Balas[i].Daño;
+                    if ((Balas[i].Posicion.Y == NaveC.PosicionesNave[j].Y) && (Balas[i].Posicion.X == NaveC.PosicionesNave[j].X))
+                    {
+                        NaveC.Vida -= Balas[i].Daño;
+                        Balas[i].Borrar();
+                        NaveC.Dibujar();
+                        Balas.Remove(Balas[i]);
+                    }
+                }
+
+
+
+                if (!(Balas[i].Posicion.Y > VentanaC.LimiteInferior.Y - 2))
+                {
+                    Balas[i].Mover();
+                }
+                else
+                {
                     Balas[i].Borrar();
-                    NaveC.Dibujar();
                     Balas.Remove(Balas[i]);
                 }
+
             }
-
-
-
-            if (!(Balas[i].Posicion.Y > VentanaC.LimiteInferior.Y - 2))
-            {
-                Balas[i].Mover();
-            }
-            else
-            {
-                Balas[i].Borrar();
-                Balas.Remove(Balas[i]);
-            }
-
         }
+
 
     }
 
 
     public void Mover()
     {
-
-        if (DateTime.Now > _TiempoMovimiento.AddMilliseconds(30))
+        if (DateTime.Now > _TiempoMovimiento.AddMilliseconds(30) && Vivo)
         {
             Borrar();
             GenerarDireccion();
@@ -232,6 +236,25 @@ public class Enemigo
 
 
     }
+
+    public void Morir()
+    {
+        
+
+        foreach (Point p in PosicionesEnemigo)
+        {
+                Console.SetCursorPosition(p.X, p.Y);
+                Console.Write(" ");
+                Thread.Sleep(200);
+            foreach (BalaEnemigo b in Balas)
+            {
+                b.Borrar();    
+            }
+            
+        }
+    }
+
+
 
 
 }

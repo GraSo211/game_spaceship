@@ -5,7 +5,10 @@ namespace game_spaceship;
 
 public class MiniBoss : Enemigo
 {
-    public MiniBoss(ConsoleColor color, Ventana ventana, Point posicionInicial, Nave nave) : base(color, ventana, posicionInicial, nave) { }
+    public MiniBoss(ConsoleColor color, Ventana ventana, Point posicionInicial, Nave nave) : base(color, ventana, posicionInicial, nave)
+    {
+        
+    }
 
 
     public override void Dibujar()
