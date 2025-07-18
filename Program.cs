@@ -52,6 +52,7 @@ void Game()
         nave.informacion();
         if (nave.Vida <= 0)
         {
+            nave.Vida = 0;
             nave.Muerte();
             juego = false;
         }
@@ -62,7 +63,11 @@ void Game()
         miniBoss1.Mover();
 
         boss.Mover();
+
         enemigo1.Disparar();
+        enemigo2.Disparar();
+        miniBoss1.Disparar();
+        boss.Disparar();
         
 
     }

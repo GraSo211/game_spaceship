@@ -177,7 +177,7 @@ public class Enemigo
     }
 
 
-    public void Disparar()
+    public virtual void Disparar()
     {
         if (Vivo)
         {

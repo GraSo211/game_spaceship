@@ -31,7 +31,7 @@ public class BalaEnemigo
         Console.Write(" ");
     }
 
-    public void Dibujar()
+    public virtual void Dibujar()
     {
         Console.ForegroundColor = Color;
         Console.SetCursorPosition(Posicion.X, Posicion.Y);
