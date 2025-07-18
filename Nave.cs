@@ -250,7 +250,7 @@ public class Nave
 
         if (Sobrecarga > 0)
         {
-            Sobrecarga -= 0.0005f;
+            Sobrecarga -= 0.000999f;
         }
         else
         {

@@ -245,7 +245,7 @@ public class Enemigo
         {
                 Console.SetCursorPosition(p.X, p.Y);
                 Console.Write(" ");
-                Thread.Sleep(200);
+                Thread.Sleep(100);
             foreach (BalaEnemigo b in Balas)
             {
                 b.Borrar();    

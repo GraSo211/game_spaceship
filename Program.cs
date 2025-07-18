@@ -56,12 +56,12 @@ void Game()
             juego = false;
         }
 
-        //enemigo1.Mover();
-        //enemigo2.Mover();
+        enemigo1.Mover();
+        enemigo2.Mover();
 
-        //miniBoss1.Mover();
+        miniBoss1.Mover();
 
-        //boss.Mover();
+        boss.Mover();
         enemigo1.Disparar();
         
 
