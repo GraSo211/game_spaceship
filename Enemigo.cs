@@ -82,7 +82,7 @@ public class Enemigo
         }
     }
 
-    private void GenerarDireccion()
+    protected void GenerarDireccion()
     {
         int rndDuracion = new Random().Next(1000, 2001);
 
@@ -220,7 +220,7 @@ public class Enemigo
     }
 
 
-    public void Mover()
+    public virtual void Mover()
     {
         if (DateTime.Now > _TiempoMovimiento.AddMilliseconds(30) && Vivo)
         {

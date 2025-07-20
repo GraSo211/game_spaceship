@@ -25,7 +25,7 @@ public class BalaEnemigo
         TiempoBala = DateTime.Now;
     }
 
-    public void Borrar()
+    public virtual void Borrar()
     {
         Console.SetCursorPosition(Posicion.X, Posicion.Y);
         Console.Write(" ");
