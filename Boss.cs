@@ -144,13 +144,21 @@ public class Boss : Enemigo
                 case 4:
                     ContDisparo += 1;
                     bala.Dibujar(4);
-                    EventoDisparo = DateTime.Now;
+                    foreach (Point navePos in NaveC.PosicionesNave)
+                    {
+                        if ((navePos.X >= PosicionActual.X + 5) && (navePos.X <= PosicionActual.X + 11))
+                        {
+                            NaveC.Vida = 0;
+                        }
+                    }
 
+                    EventoDisparo = DateTime.Now;
 
                     break;
                 case 5:
                     ContDisparo = 1;
                     PermitirMovimiento = true;
+                    bala.Dibujar(4);
                     EventoDisparo = DateTime.Now.AddSeconds(5);
                     bala.Borrar();
                     break

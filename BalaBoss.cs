@@ -7,7 +7,7 @@ public class BalaBoss : BalaEnemigo
 {
     public BalaBoss(Point posicionActual, ConsoleColor color, Ventana ventana) : base(posicionActual, color, ventana)
     {
-        Daño = 101;
+
     }
 
 
@@ -55,10 +55,10 @@ public class BalaBoss : BalaEnemigo
     public override void Borrar()
     {
         for (int i = 0; i < VentanaC.LimiteInferior.Y - Posicion.Y; i++)
-                {
-                    Console.SetCursorPosition(Posicion.X, Posicion.Y + i);
-                    Console.Write("      ");
-                }
+        {
+            Console.SetCursorPosition(Posicion.X, Posicion.Y + i);
+            Console.Write("      ");
+        }
     }
 
 }
