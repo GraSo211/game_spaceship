@@ -1,10 +1,12 @@
 ﻿
 using game_spaceship;
 using System.Drawing;
+using System.Runtime.Serialization;
 
+bool ejecucion = true;
 Ventana ventana;
 Nave nave;
-bool juego = true;
+bool juego = false;
 Enemigo enemigo1;
 Enemigo enemigo2;
 Enemigo enemigo3;
@@ -21,7 +23,7 @@ Enemigo enemigo6;
 Enemigo enemigo7;
 
 
-int stage = 3;
+int stage = 1;
 void Iniciar()
 {
     // Ventana de juego 
@@ -30,7 +32,7 @@ void Iniciar()
 
     // Nave del jugador
     nave = new Nave(new Point(80, 40), 2, ConsoleColor.DarkBlue, ventana);
-    nave.Dibujar();
+
 
 
     enemigo1 = new Enemigo(ConsoleColor.Red, ventana, new Point(20, 10), nave);
@@ -50,126 +52,174 @@ void Iniciar()
 
 }
 
+void Reiniciar()
+{
+    Iniciar();
+    juego = false;
+    Console.Clear();
+    Console.ForegroundColor = ConsoleColor.White;
+    ventana.DibujarMarco();
 
+    nave.Vida = 100;
+    nave.Sobrecarga = 0;
+    nave.BalaEspecial = 0;
+    nave.Balas.Clear();
+
+    enemigo1.Vida = 50;
+    enemigo2.Vida = 50;
+    enemigo3.Vida = 50;
+    enemigo4.Vida = 50;
+    enemigo5.Vida = 50;
+    enemigo6.Vida = 50;
+    enemigo7.Vida = 50;
+    miniBoss1.Vida = 100;
+    miniBoss2.Vida = 100;
+    miniBoss3.Vida = 100;
+    miniBoss4.Vida = 100;
+    boss.Vida = 200;
+
+    enemigo1.Vivo = true;
+    enemigo2.Vivo = true;
+    enemigo3.Vivo = true;
+    enemigo4.Vivo = true;
+    enemigo5.Vivo = true;
+    enemigo6.Vivo = true;
+    enemigo7.Vivo = true;
+    miniBoss1.Vivo = true;
+    miniBoss2.Vivo = true;
+    miniBoss3.Vivo = true;
+    miniBoss4.Vivo = true;
+    boss.Vivo = true;
+
+    stage = 1;
+}
 void Game()
 {
-    while (juego)
+
+    while (ejecucion)
     {
-        nave.Mover();
-        nave.Disparar();
-        nave.informacion();
-        if (nave.Vida <= 0)
+        ventana.Menu();
+
+        ventana.Teclado(ref ejecucion, ref juego);
+
+
+        while (juego)
         {
-            nave.Vida = 0;
-            nave.Muerte();
-            juego = false;
+            nave.Dibujar();
+            nave.Mover();
+            nave.Disparar();
+            nave.informacion();
+            if (nave.Vida <= 0)
+            {
+                nave.Vida = 0;
+                nave.Muerte();
+                juego = false;
+                Reiniciar();
+            }
+
+
+            switch (stage)
+            {
+                case 1:
+                    nave.Enemigos.Add(enemigo1);
+                    nave.Enemigos.Add(enemigo2);
+                    nave.Enemigos.Add(enemigo3);
+
+                    enemigo1.Dibujar();
+                    enemigo2.Dibujar();
+                    enemigo3.Dibujar();
+                    stage = 4;
+                    break;
+                case 2:
+                    nave.Enemigos.Add(enemigo4);
+                    nave.Enemigos.Add(enemigo5);
+                    nave.Enemigos.Add(miniBoss1);
+                    nave.Enemigos.Add(miniBoss2);
+
+                    enemigo4.Dibujar();
+                    enemigo5.Dibujar();
+                    miniBoss1.Dibujar();
+                    miniBoss2.Dibujar();
+
+                    stage = 5;
+                    break;
+                case 3:
+                    stage = 6;
+                    ventana.Peligro();
+
+                    break;
+                case 4:
+                    enemigo1.Mover();
+                    enemigo2.Mover();
+                    enemigo3.Mover();
+
+                    enemigo1.Disparar();
+                    enemigo2.Disparar();
+                    enemigo3.Disparar();
+                    break;
+                case 5:
+                    enemigo4.Mover();
+                    enemigo5.Mover();
+                    miniBoss1.Mover();
+                    miniBoss2.Mover();
+
+                    enemigo4.Disparar();
+                    enemigo5.Disparar();
+                    miniBoss1.Disparar();
+                    miniBoss2.Disparar();
+                    break;
+                case 6:
+                    nave.Enemigos.Add(boss);
+                    nave.Enemigos.Add(miniBoss3);
+                    nave.Enemigos.Add(miniBoss4);
+                    nave.Enemigos.Add(enemigo6);
+                    nave.Enemigos.Add(enemigo7);
+
+
+                    boss.Dibujar();
+                    miniBoss3.Dibujar();
+                    miniBoss4.Dibujar();
+                    enemigo6.Dibujar();
+                    enemigo7.Dibujar();
+
+                    stage = 7;
+                    break;
+                case 7:
+                    boss.Mover();
+                    miniBoss3.Mover();
+                    miniBoss4.Mover();
+                    enemigo6.Mover();
+                    enemigo7.Mover();
+
+                    boss.Disparar();
+                    miniBoss3.Disparar();
+                    miniBoss4.Disparar();
+                    enemigo6.Disparar();
+                    enemigo7.Disparar();
+                    break;
+
+            }
+
+            if (stage == 4 && !enemigo1.Vivo && !enemigo2.Vivo && !enemigo3.Vivo)
+            {
+                stage = 2;
+            }
+            if (stage == 5 && !miniBoss1.Vivo && !miniBoss2.Vivo && !enemigo4.Vivo && !enemigo5.Vivo)
+            {
+                stage = 3;
+            }
+
+            if (stage == 7 && !boss.Vivo && !miniBoss3.Vivo && !miniBoss4.Vivo && !enemigo6.Vivo && !enemigo7.Vivo)
+            {
+                Reiniciar();
+            }
+
+
         }
-
-
-        switch (stage)
-        {
-            case 1:
-                nave.Enemigos.Add(enemigo1);
-                nave.Enemigos.Add(enemigo2);
-                nave.Enemigos.Add(enemigo3);
-
-                enemigo1.Dibujar();
-                enemigo2.Dibujar();
-                enemigo3.Dibujar();
-                stage = 4;
-                break;
-            case 2:
-                nave.Enemigos.Add(enemigo4);
-                nave.Enemigos.Add(enemigo5);
-                nave.Enemigos.Add(miniBoss1);
-                nave.Enemigos.Add(miniBoss2);
-
-                enemigo4.Dibujar();
-                enemigo5.Dibujar();
-                miniBoss1.Dibujar();
-                miniBoss2.Dibujar();
-
-                stage = 5;
-                break;
-            case 3:
-                stage = 6;
-                ventana.Peligro();
-
-                break;
-            case 4:
-                enemigo1.Mover();
-                enemigo2.Mover();
-                enemigo3.Mover();
-
-                enemigo1.Disparar();
-                enemigo2.Disparar();
-                enemigo3.Disparar();
-                break;
-            case 5:
-                enemigo4.Mover();
-                enemigo5.Mover();
-                miniBoss1.Mover();
-                miniBoss2.Mover();
-
-                enemigo4.Disparar();
-                enemigo5.Disparar();
-                miniBoss1.Disparar();
-                miniBoss2.Disparar();
-                break;
-            case 6:
-                nave.Enemigos.Add(boss);
-                nave.Enemigos.Add(miniBoss3);
-                nave.Enemigos.Add(miniBoss4);
-                nave.Enemigos.Add(enemigo6);
-                nave.Enemigos.Add(enemigo7);
-
-
-                boss.Dibujar();
-                miniBoss3.Dibujar();
-                miniBoss4.Dibujar();
-                enemigo6.Dibujar();
-                enemigo7.Dibujar();
-
-                stage = 7;
-                break;
-            case 7:
-                boss.Mover();
-                miniBoss3.Mover();
-                miniBoss4.Mover();
-                enemigo6.Mover();
-                enemigo7.Mover();
-
-                boss.Disparar();
-                miniBoss3.Disparar();
-                miniBoss4.Disparar();
-                enemigo6.Disparar();
-                enemigo7.Disparar();
-                break;
-
-        }
-
-        if (stage == 4 && !enemigo1.Vivo  && !enemigo2.Vivo  && !enemigo3.Vivo )
-        {
-            stage = 2;
-        }
-        if (stage == 5 && !miniBoss1.Vivo  && !miniBoss2.Vivo  && !enemigo4.Vivo  && !enemigo5.Vivo)
-        {
-            stage = 3;
-        }
-        
-        if (stage == 7 && !boss.Vivo && !miniBoss3.Vivo  && !miniBoss4.Vivo  && !enemigo6.Vivo && !enemigo7.Vivo )
-        {
-            juego = false;
-        }
-
-
-
-
-
-
-
-
     }
+
+
+
 }
 
 

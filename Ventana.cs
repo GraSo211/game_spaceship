@@ -85,8 +85,32 @@ public class Ventana
             Thread.Sleep(200);
         }
     }
-
-
+    public void Teclado(ref bool ejecucion, ref bool juego)
+    {
+        if (Console.KeyAvailable)
+        {
+            ConsoleKeyInfo keyInfo = Console.ReadKey(true);
+            if (keyInfo.Key == ConsoleKey.Enter)
+            {
+                Console.Clear();
+                DibujarMarco();
+                juego = true;
+            }
+            if (keyInfo.Key == ConsoleKey.Escape)
+            {
+                ejecucion = false;
+            }
+        }
+    }
+    public void Menu()
+    {
+        Console.ForegroundColor = ConsoleColor.White;
+        Console.SetCursorPosition(LimiteInferior.X / 2 - 5, LimiteInferior.Y / 2 - 1);
+        Console.Write("[ENTER] JUGAR");
+        Console.SetCursorPosition(LimiteInferior.X / 2 - 5, LimiteInferior.Y / 2);
+        Console.Write("[ESC] SALIR");
+        
+    }
 
 
 }
