@@ -69,6 +69,23 @@ public class Ventana
 
     }
 
+    public void Peligro()
+    {
+        Console.Clear();
+        Console.ForegroundColor = ConsoleColor.Red;
+        DibujarMarco();
+        for (int i = 0; i < 6; i++)
+        {
+            Console.ForegroundColor = ConsoleColor.Red;
+            Console.SetCursorPosition(LimiteInferior.X / 2 - 5, LimiteInferior.Y / 2);
+            Console.Write("¡¡¡PELIGRO!!!");
+            Thread.Sleep(200);
+            Console.SetCursorPosition(LimiteInferior.X / 2 - 5, LimiteInferior.Y / 2);
+            Console.WriteLine("             ");
+            Thread.Sleep(200);
+        }
+    }
+
 
 
 

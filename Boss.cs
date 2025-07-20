@@ -118,7 +118,7 @@ public class Boss : Enemigo
 
     public override void Disparar()
     {
-        if (DateTime.Now >= EventoDisparo.AddMilliseconds(500))
+        if (Vivo && DateTime.Now >= EventoDisparo.AddMilliseconds(500))
         {
             BalaBoss bala = new BalaBoss(new Point(PosicionActual.X + 5, PosicionActual.Y + 5), ConsoleColor.DarkRed, VentanaC);
 
@@ -157,6 +157,13 @@ public class Boss : Enemigo
                     break;
                 case 5:
                     ContDisparo = 1;
+                    foreach (Point navePos in NaveC.PosicionesNave)
+                    {
+                        if ((navePos.X >= PosicionActual.X + 5) && (navePos.X <= PosicionActual.X + 11))
+                        {
+                            NaveC.Vida = 0;
+                        }
+                    }
                     PermitirMovimiento = true;
                     bala.Dibujar(4);
                     EventoDisparo = DateTime.Now.AddSeconds(5);

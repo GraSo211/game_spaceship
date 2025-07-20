@@ -8,8 +8,7 @@ public enum Direccion
     Norte,
     Sur,
     Este,
-    Oeste,
-    Quieto
+    Oeste
 }
 public class Enemigo
 {
@@ -86,7 +85,7 @@ public class Enemigo
     {
         int rndDuracion = new Random().Next(1000, 2001);
 
-        if ((DateTime.Now > _TiempoDireccion.AddMilliseconds(rndDuracion)) && (Direccion == Direccion.Este || Direccion == Direccion.Oeste || Direccion == Direccion.Quieto))
+        if ((DateTime.Now > _TiempoDireccion.AddMilliseconds(rndDuracion)) && (Direccion == Direccion.Este || Direccion == Direccion.Oeste))
         {
             int rndDireccion = new Random().Next(1, 6);
             switch (rndDireccion)
@@ -103,9 +102,6 @@ public class Enemigo
                 case 4:
                     Direccion = Direccion.Este;
                     break;
-                case 5:
-                    Direccion = Direccion.Quieto;
-                    break;
             }
             _TiempoDireccion = DateTime.Now;
 
@@ -113,7 +109,7 @@ public class Enemigo
 
         if ((DateTime.Now > _TiempoDireccion.AddMilliseconds(200)) && (Direccion == Direccion.Norte || Direccion == Direccion.Sur))
         {
-            int rndDireccion = new Random().Next(1, 4);
+            int rndDireccion = new Random().Next(1, 3);
             switch (rndDireccion)
             {
                 case 1:
@@ -121,9 +117,6 @@ public class Enemigo
                     break;
                 case 2:
                     Direccion = Direccion.Este;
-                    break;
-                case 3:
-                    Direccion = Direccion.Quieto;
                     break;
             }
             _TiempoDireccion = DateTime.Now;
@@ -239,7 +232,7 @@ public class Enemigo
 
     public void Morir()
     {
-        
+        Vivo = false;
 
         foreach (Point p in PosicionesEnemigo)
         {
@@ -248,7 +241,7 @@ public class Enemigo
                 Thread.Sleep(100);
             foreach (BalaEnemigo b in Balas)
             {
-                b.Borrar();    
+                b.Borrar();
             }
             
         }

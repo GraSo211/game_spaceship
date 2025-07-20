@@ -209,7 +209,7 @@ public class Nave
                 {
                     if ((p.Y == Balas[i].Posicion.Y) && (p.X == Balas[i].Posicion.X))
                     {
-                        int daño = (Balas[i].TipoBalaDisparada == TipoBala.Normal) ? 5 : 20;
+                        int daño = (Balas[i].TipoBalaDisparada == TipoBala.Normal) ? 100 : 500;
                         Enemigos[j].Vida -= daño;
                         Enemigos[j].Dibujar();
                         if (Enemigos[j].Vida <= 0)
@@ -217,6 +217,7 @@ public class Nave
                             Enemigos[j].Vida = 0;
                             Enemigos[j].Vivo = false;
                             Enemigos[j].Morir();
+                            
                             Enemigos.RemoveAt(j);
                         }
                         
